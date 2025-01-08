@@ -106,20 +106,36 @@ app.delete('/users/:id', async (req, res) => {
     }
 });
 
-app.get('/webhook', async (req, res)=> {
-    console.log('hitting the webhook.....');
+
+app.get('/webhook', async (req, res) => {
+    console.log('Hitting the webhook...');
+
     try {
-        const response = await axios.post("https://webhook-test.com/7f85c32cb92e1853fa5f8712d0670ca4", {
-            data: "From Vujis Backend",
+        const response = await axios.post(
+            "https://webhook-test.com/7f85c32cb92e1853fa5f8712d0670ca4",
+            {
+                data: "From Vujis Backend",
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json", // Set appropriate headers
+                },
+            }
+        );
+        console.log(response);
+        res.status(200).json({
+            message: "Data received from platform",
+            data: response?.data,
         });
-        res.json({
-            message: "Data Received from platform",
-            data: response?.data
-        })
     } catch (error) {
-        res.json({ error: 'Failed to contact other backend'})
+        console.error("Error contacting external backend:", error?.message);
+
+        res.status(500).json({
+            error: "Failed to contact external backend",
+            details: error?.response?.data || error?.message, // Include error details if available
+        });
     }
-})
+});
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
 });
