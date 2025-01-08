@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios'); 
 const { PrismaClient } = require('@prisma/client');
 const { HttpsProxyAgent } = require('https-proxy-agent');
 
@@ -105,10 +106,16 @@ app.delete('/users/:id', async (req, res) => {
     }
 });
 
-app.post('/webhook', async (req, res)=> {
-    res.json({ 
-        message: "talking to other backends",
-    })
+app.get('/webhook', async (req, res)=> {
+    try {
+        const response = await axios.post("https://webhook-test.com/7f85c32cb92e1853fa5f8712d0670ca4");
+        res.json({
+            message: "Data Received from platform",
+            data: response?.data
+        })
+    } catch (error) {
+        res.json({ error: 'Failed to contact other backend'})
+    }
 })
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
