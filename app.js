@@ -105,9 +105,9 @@ app.delete('/users/:id', async (req, res) => {
     }
 });
 
-app.get('/webhook', async (req, res)=> {
+app.post('/webhook', async (req, res)=> {
     res.json({ 
-        message: "webhook received",
+        message: "talking to other backends",
     })
 })
 app.listen(port, () => {
