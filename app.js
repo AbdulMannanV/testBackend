@@ -108,7 +108,9 @@ app.delete('/users/:id', async (req, res) => {
 
 app.get('/webhook', async (req, res)=> {
     try {
-        const response = await axios.post("https://webhook-test.com/7f85c32cb92e1853fa5f8712d0670ca4");
+        const response = await axios.post("https://webhook-test.com/7f85c32cb92e1853fa5f8712d0670ca4", {
+            data: "From Vujis Backend",
+        });
         res.json({
             message: "Data Received from platform",
             data: response?.data
