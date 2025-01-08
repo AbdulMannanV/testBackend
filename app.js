@@ -105,6 +105,11 @@ app.delete('/users/:id', async (req, res) => {
     }
 });
 
+app.get('/webhook', async (req, res)=> {
+    res.json({ 
+        message: "webhook received",
+    })
+})
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
 });
